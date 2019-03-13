@@ -201,16 +201,14 @@ uint8_t twi_writeTo(uint8_t address, uint8_t* data, uint8_t length, uint8_t wait
   }
 
   // wait until twi is ready, become master transmitter
-  if (TWI_READY != twi_state){   //  while(TWI_READY != twi_state){
-    twi_error = 9;
-//    continue;
-  } else {
+  while(TWI_READY != twi_state){
+    continue;
+  }
   twi_state = TWI_MTX;
   twi_sendStop = sendStop;
   // reset error state (0xFF.. no error occured)
   twi_error = 0xFF;
-}
-  
+
   // initialize buffer iteration vars
   twi_masterBufferIndex = 0;
   twi_masterBufferLength = length;
@@ -254,7 +252,7 @@ uint8_t twi_writeTo(uint8_t address, uint8_t* data, uint8_t length, uint8_t wait
   else if (twi_error == TW_MT_DATA_NACK)
     return 3;	// error: data send, nack received
   else
-    return twi_error;	// other twi error
+    return 4;	// other twi error
 }
 
 /* 

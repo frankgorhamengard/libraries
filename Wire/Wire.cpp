@@ -92,7 +92,6 @@ void TwoWire::setClock(uint32_t frequency)
   TWBR = ((F_CPU / frequency) - 16) / 2;
 }
 
-/* unusedfor UNO
 void TwoWire::setSDA(uint8_t pin)
 {
 }
@@ -100,7 +99,6 @@ void TwoWire::setSDA(uint8_t pin)
 void TwoWire::setSCL(uint8_t pin)
 {
 }
-*/
 
 uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
 {
@@ -163,8 +161,8 @@ void TwoWire::beginTransmission(int address)
 //
 uint8_t TwoWire::endTransmission(uint8_t sendStop)
 {
-  // transmit buffer (blocking)                                                     
-  int8_t ret = twi_writeTo(txAddress, txBuffer, txBufferLength, 0, sendStop);    // 1 to 0 by fge, don't wait
+  // transmit buffer (blocking)
+  int8_t ret = twi_writeTo(txAddress, txBuffer, txBufferLength, 1, sendStop);
   // reset tx buffer iterator vars
   txBufferIndex = 0;
   txBufferLength = 0;
